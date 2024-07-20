@@ -22,10 +22,6 @@ Download the latest release from the [releases page](https://github.com/blwsh/ll
 ## Command line usage
 
 ```shell
-
-## Command line usage
-
-```shell
 llmt \ --config <config_file> \    # optional parameter, default is config.yaml in current directory
       analyze ./myProject ../docs  # analyzes files in ./myProject and outputs them as markdown in ../docs (maintains file structure)
 ```
