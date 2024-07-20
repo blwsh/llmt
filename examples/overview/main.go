@@ -4,8 +4,10 @@ import (
 	"context"
 	_ "embed"
 	"os"
+	"path/filepath"
 	"strings"
 
+	"cdb/lib/file"
 	"cdb/lib/logger"
 	"cdb/pkg/analyzer/openai"
 	"cdb/pkg/project_analyzer"
@@ -38,6 +40,18 @@ func main() {
 			//Analyzer: ollama.New("http://localhost:11434", "overview"),
 			Analyzer:  openai.New(os.Getenv(EnvOpenAIToken), "gpt-4o-mini"),
 			Condition: myFancyConditionFunc,
+			ResultHandler: func(destFilePath string, result string) error {
+				outputPath := filepath.Join(destFilePath + ".md")
+
+				err := file.WriteTo(outputPath, result)
+				if err != nil {
+					l.Error(err)
+				}
+
+				l.Info("analyzed file: ", filepath.Base(destFilePath), " -> ", outputPath)
+
+				return nil
+			},
 		},
 	})
 	if err != nil {

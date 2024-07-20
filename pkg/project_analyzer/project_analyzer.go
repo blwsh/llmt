@@ -12,9 +12,10 @@ import (
 )
 
 type FileAnalyzer struct {
-	Prompt    string
-	Analyzer  analyzer.Analyzer
-	Condition func(filePath string) bool
+	Prompt        string
+	Analyzer      analyzer.Analyzer
+	Condition     func(filePath string) bool
+	ResultHandler func(destFilePath string, result string) error
 }
 
 type ProjectAnalyzer interface {
@@ -25,9 +26,23 @@ type projectAnalyzer struct {
 	logger logger.Logger
 }
 
-func New() ProjectAnalyzer {
-	return &projectAnalyzer{
+type Option func(*projectAnalyzer)
+
+func New(options ...Option) ProjectAnalyzer {
+	p := &projectAnalyzer{
 		logger: logger.New(false),
+	}
+
+	for _, option := range options {
+		option(p)
+	}
+
+	return p
+}
+
+func WithLogger(l logger.Logger) Option {
+	return func(p *projectAnalyzer) {
+		p.logger = l
 	}
 }
 
@@ -78,15 +93,12 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 					return
 				}
 
-				outputPath := filepath.Join(destinationPath, f.Name()+".md")
-
-				err = file.WriteTo(outputPath, analyzed)
-				if err != nil {
-					s.logger.Error(err)
-					return
+				if projectAnalyzer.ResultHandler != nil {
+					err = projectAnalyzer.ResultHandler(filepath.Join(destinationPath, f.Name()), analyzed)
+					if err != nil {
+						s.logger.Error(err)
+					}
 				}
-
-				s.logger.Info("analyzed file: ", f)
 			}()
 		}
 	}
