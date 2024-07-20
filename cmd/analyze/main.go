@@ -6,7 +6,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"cdb/pkg/project_analyzer"
+	"github.com/blwsh/llmt/pkg/project_analyzer"
 )
 
 var (

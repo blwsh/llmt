@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"sync"
 
-	"cdb/lib/file"
-	"cdb/lib/logger"
-	"cdb/pkg/file_analyzer"
+	"github.com/blwsh/llmt/lib/file"
+	"github.com/blwsh/llmt/lib/logger"
+	"github.com/blwsh/llmt/pkg/file_analyzer"
 )
 
 type FileAnalyzer struct {

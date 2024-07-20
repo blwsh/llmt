@@ -5,8 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"cdb/lib/file"
-	"cdb/lib/logger"
+	"github.com/blwsh/llmt/lib/file"
+	"github.com/blwsh/llmt/lib/logger"
 )
 
 type markdownWriter struct {

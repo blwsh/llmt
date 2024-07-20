@@ -8,10 +8,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"cdb/lib/file"
-	"cdb/lib/logger"
-	"cdb/pkg/file_analyzer/openai"
-	"cdb/pkg/project_analyzer"
+	"github.com/blwsh/llmt/lib/file"
+	"github.com/blwsh/llmt/lib/logger"
+	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/project_analyzer"
 )
 
 const (

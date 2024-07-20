@@ -10,7 +10,7 @@ import (
 	oai "github.com/sashabaranov/go-openai"
 	"golang.org/x/time/rate"
 
-	"cdb/pkg/file_analyzer"
+	"github.com/blwsh/llmt/pkg/file_analyzer"
 )
 
 func New(llmAuthToken, model string) file_analyzer.Analyzer {

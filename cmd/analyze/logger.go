@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	"cdb/lib/logger"
+	"github.com/blwsh/llmt/lib/logger"
 )
 
 type impl struct{}

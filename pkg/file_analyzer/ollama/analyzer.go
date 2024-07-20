@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"time"
 
-	"cdb/pkg/file_analyzer"
+	"github.com/blwsh/llmt/pkg/file_analyzer"
 )
 
 func New(llamaHost, model string) file_analyzer.Analyzer {

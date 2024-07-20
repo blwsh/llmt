@@ -3,9 +3,9 @@ package main
 import (
 	"errors"
 
-	"cdb/pkg/file_analyzer"
-	"cdb/pkg/file_analyzer/ollama"
-	"cdb/pkg/file_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/file_analyzer"
+	"github.com/blwsh/llmt/pkg/file_analyzer/ollama"
+	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
 )
 
 var ErrUnknownAnalyzer = errors.New("unknown analyzer")
