@@ -1,11 +1,11 @@
 # Authorizer.php Documentation
 
 ## Overview
-The `Authorizer` class is part of the `BenWatson\MyPhpProject\auth` namespace. It is designed to manage user authorization by verifying if a given username matches the initialized name of the authorizer.
+The `Authorizer` class is responsible for user authorization within the `BenWatson\MyPhpProject\auth` namespace. It checks if a given user matches the initialized name, thus determining if the user has the right to access specific functionalities.
 
 ## Logic
-- The class is initialized with a string parameter representing a user's name.
-- The `authorize` method takes a string parameter for a user.
-- It checks if the provided user name matches the internal name stored in the instance.
-- Returns `true` if the user matches; otherwise, it returns `false`.ameter and checks if it matches the stored `$name`.
-- The `authorize` method returns a boolean value indicating whether the user is authorized (true) or not (false).
+- The class has a private property `$name` which stores the name associated with the authorization.
+- The constructor accepts a string `$name` to initialize the `$name` property.
+- The `authorize` method takes a string `$user` as a parameter and returns a boolean:
+  - Returns `true` if the provided `$user` matches the initialized `$name`.
+  - Returns `false` otherwise.r the user is authorized (true) or not (false).

@@ -1,4 +1,4 @@
-package analyzer
+package file_analyzer
 
 import (
 	"context"

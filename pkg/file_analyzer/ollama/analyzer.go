@@ -10,10 +10,10 @@ import (
 	"net/url"
 	"time"
 
-	"cdb/pkg/analyzer"
+	"cdb/pkg/file_analyzer"
 )
 
-func New(llamaHost, model string) analyzer.Analyzer {
+func New(llamaHost, model string) file_analyzer.Analyzer {
 	return &llama3Analyzer{llamaHost: llamaHost, model: model}
 }
 

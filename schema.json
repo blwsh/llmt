@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "Version": {
+      "type": "string"
+    },
+    "analyzers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "prompt": {
+            "type": "string"
+          },
+          "analyzer": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "regex": {
+            "type": "string"
+          },
+          "in": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "not_in": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["prompt", "analyzer", "model"]
+      }
+    }
+  },
+  "required": ["version", "analyzers"]
+}

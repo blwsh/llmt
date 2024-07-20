@@ -8,12 +8,12 @@ import (
 
 	"cdb/lib/file"
 	"cdb/lib/logger"
-	"cdb/pkg/analyzer"
+	"cdb/pkg/file_analyzer"
 )
 
 type FileAnalyzer struct {
 	Prompt        string
-	Analyzer      analyzer.Analyzer
+	Analyzer      file_analyzer.Analyzer
 	Condition     func(filePath string) bool
 	ResultHandler func(destFilepath string, result string) error
 }

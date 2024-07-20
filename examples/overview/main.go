@@ -10,7 +10,7 @@ import (
 
 	"cdb/lib/file"
 	"cdb/lib/logger"
-	"cdb/pkg/analyzer/openai"
+	"cdb/pkg/file_analyzer/openai"
 	"cdb/pkg/project_analyzer"
 )
 
@@ -39,8 +39,8 @@ func main() {
 	err := project_analyzer.New(project_analyzer.WithLogger(l)).
 		AnalyzeProject(ctx, here+"/myPhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
 			{
-				Prompt:        prompt,
-				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"), // or: ollama.New("http://localhost:11434", "overview"),
+				Prompt:        prompt,                                 // you may want to just use empty string if your model has a system prompt already
+				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "overview"),
 				Condition:     myFancyConditionFunc,
 				ResultHandler: myDocsWriterFunc,
 			},

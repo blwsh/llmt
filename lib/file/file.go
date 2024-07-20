@@ -31,7 +31,7 @@ func GetContents(dest string, file os.DirEntry) (string, error) {
 	return string(buf), nil
 }
 
-func WriteTo(dest, code string) error {
+func WriteTo(dest, content string) error {
 	destFile, err := os.OpenFile(dest, os.O_CREATE|os.O_WRONLY, 0644)
 	if err != nil {
 		return err
@@ -39,7 +39,7 @@ func WriteTo(dest, code string) error {
 
 	defer func() { _ = destFile.Close() }()
 
-	_, err = destFile.WriteString(code)
+	_, err = destFile.WriteString(content)
 	if err != nil {
 		return err
 	}

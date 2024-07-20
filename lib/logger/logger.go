@@ -7,6 +7,7 @@ import (
 type Logger interface {
 	Info(args ...interface{})
 	Infof(template string, args ...interface{})
+	Warnf(template string, args ...interface{})
 	Error(args ...interface{})
 	Fatal(args ...interface{})
 }

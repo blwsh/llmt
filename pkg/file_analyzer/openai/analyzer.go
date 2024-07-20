@@ -10,10 +10,10 @@ import (
 	oai "github.com/sashabaranov/go-openai"
 	"golang.org/x/time/rate"
 
-	"cdb/pkg/analyzer"
+	"cdb/pkg/file_analyzer"
 )
 
-func New(llmAuthToken, model string) analyzer.Analyzer {
+func New(llmAuthToken, model string) file_analyzer.Analyzer {
 	return &openai{
 		gpt:        oai.NewClient(llmAuthToken),
 		model:      model,
@@ -49,7 +49,7 @@ func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (s
 		var apiErr *oai.APIError
 		if errors.As(err, &apiErr) {
 			if apiErr.HTTPStatusCode == 429 {
-				return "", &analyzer.RateLimitError{Err: apiErr}
+				return "", &file_analyzer.RateLimitError{Err: apiErr}
 			}
 		}
 
@@ -57,7 +57,7 @@ func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (s
 	}
 
 	if len(resp.Choices) != 1 {
-		return "", fmt.Errorf("%w: expected 1 choice, got %d", analyzer.ErrUnexpectedResponse, len(resp.Choices))
+		return "", fmt.Errorf("%w: expected 1 choice, got %d", file_analyzer.ErrUnexpectedResponse, len(resp.Choices))
 	}
 
 	return resp.Choices[0].Message.Content, nil

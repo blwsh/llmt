@@ -1,0 +1,10 @@
+#$schema: ./schema.json
+version: "0.1"
+
+analyzers:
+- prompt: What is your name?
+  analyzer: openai
+  model: gpt-4o-mini
+  regex: ^.+\.php$
+  not_in:
+    - vendor
