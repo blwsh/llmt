@@ -4,7 +4,6 @@ Transforms all files in specified directory using a large language model. You ca
 transformation along with a prompt, which LLM to use and which model should be used . The transformed files are saved in
 a new directory. The file structure is preserved.
 
-
 ## Installation
 
 ### Command line utility
@@ -74,6 +73,7 @@ func main() {
 
 With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should be processed.
 
-To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
+> [!TIP]
+> To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
 
 
