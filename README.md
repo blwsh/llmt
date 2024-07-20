@@ -45,9 +45,7 @@ See [schema.json](schema.json) for the full config schema.
 
 ## Go usage
 
-See [examples](examples) directory for more examples. Below is a simple example which has similar behaviour to the command line usage above.
-
-With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should be processed.
+You can find a comprehensive list of [examples](examples) here. Below is a simple example which has similar behaviour to the command line analyze command.
 
 ```go
 package main
@@ -73,6 +71,8 @@ func main() {
 		})
 }
 ```
+
+With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should be processed.
 
 To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
 
