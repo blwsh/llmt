@@ -9,6 +9,11 @@ import (
 	"github.com/blwsh/llmt/pkg/project_analyzer"
 )
 
+const (
+	envOpenAIToken = "OPENAI_TOKEN"
+	envOllamaHost  = "OLLAMA_HOST"
+)
+
 var (
 	cwd, _ = os.Getwd()
 	ctx    = context.Background()
@@ -54,15 +59,15 @@ func analyze(ctx context.Context, source, target string, c config) error {
 		resolver = analyzerResolver{
 			OpenAITokenResolver: func() string {
 				var openAIToken string
-				if openAIToken = os.Getenv("OPENAI_TOKEN"); os.Getenv("OPENAI_TOKEN") == "" {
-					log.Fatal("OPENAI_TOKEN is not set")
+				if openAIToken = os.Getenv(envOpenAIToken); os.Getenv(envOpenAIToken) == "" {
+					log.Fatal("env var " + envOpenAIToken + " must be set when using OpenAI analyzers")
 				}
 
 				return openAIToken
 			},
 			OllamaHostResolver: func() string {
 				var ollamaHost string
-				if ollamaHost = os.Getenv("OLLAMA_HOST"); os.Getenv("OLLAMA_HOST") == "" {
+				if ollamaHost = os.Getenv(envOllamaHost); os.Getenv(envOllamaHost) == "" {
 					ollamaHost = "http://localhost:11434"
 				}
 

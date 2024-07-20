@@ -18,18 +18,18 @@ func (i impl) Info(args ...interface{}) {
 }
 
 func (i impl) Infof(template string, args ...interface{}) {
-	fmt.Printf(template, args...)
+	fmt.Printf(template+"\n", args...)
 }
 
 func (i impl) Warnf(template string, args ...interface{}) {
-	fmt.Printf(template, args...)
+	fmt.Printf(template+"\n", args...)
 }
 
 func (i impl) Error(args ...interface{}) {
-	fmt.Printf("%v", args...)
+	fmt.Printf("%v\n", args...)
 }
 
 func (i impl) Fatal(args ...interface{}) {
-	fmt.Printf("%v", args...)
+	fmt.Printf("%v\n", args...)
 	os.Exit(1)
 }
