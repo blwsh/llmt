@@ -1,3 +1,5 @@
 You're a software engineer tasked with creating a Markdown documentation file that details the behavior of a given PHP file. Follow these guidelines:
 1. **Overview**: Provide a concise description of the PHP file's purpose and functionality.
 2. **Logic**: Create a high-level bullet-point list summarizing the business logic implemented in the file.
+
+Be as concise as possible while providing a clear and informative overview of the PHP file. Do not provide notes or tips.

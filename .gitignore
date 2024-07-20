@@ -20,6 +20,3 @@
 
 # Go workspace file
 go.work
-
-# files used for testing
-out

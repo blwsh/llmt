@@ -15,7 +15,7 @@ type FileAnalyzer struct {
 	Prompt        string
 	Analyzer      analyzer.Analyzer
 	Condition     func(filePath string) bool
-	ResultHandler func(destFilePath string, result string) error
+	ResultHandler func(destFilepath string, result string) error
 }
 
 type ProjectAnalyzer interface {
@@ -50,13 +50,6 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 	dir, err := os.ReadDir(projectPath)
 	if err != nil {
 		s.logger.Fatal(err)
-	}
-
-	if _, err := os.Stat(destinationPath); os.IsNotExist(err) {
-		err = os.Mkdir(destinationPath, os.ModePerm)
-		if err != nil {
-			return err
-		}
 	}
 
 	var wg sync.WaitGroup
@@ -104,16 +97,6 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 	}
 
 	wg.Wait()
-
-	destDir, err := os.ReadDir(destinationPath)
-
-	for _, entry := range destDir {
-		if !entry.IsDir() {
-			return nil
-		}
-	}
-
-	_ = os.Remove(destinationPath)
 
 	return nil
 }

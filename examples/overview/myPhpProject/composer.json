@@ -1,0 +1,15 @@
+{
+    "name": "ben.watson/my-php-project",
+    "autoload": {
+        "psr-4": {
+            "BenWatson\\MyPhpProject\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Ben Watson",
+            "email": "ben@blw.sh"
+        }
+    ],
+    "require": {}
+}

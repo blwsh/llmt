@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	_ "embed"
+	"fmt"
 	"os"
 	"path/filepath"
 	"strings"
@@ -22,38 +23,28 @@ var l = logger.New(false)
 //go:embed prompt.txt
 var prompt string
 
+var (
+	cwd, _ = os.Getwd()
+	here   = filepath.Join(cwd, "examples/overview")
+)
+
 func main() {
 	ctx := context.Background()
 
-	if os.Getenv(EnvOpenAIToken) == "" {
+	var openAIToken string
+	if openAIToken = os.Getenv(EnvOpenAIToken); os.Getenv(EnvOpenAIToken) == "" {
 		l.Fatal(EnvOpenAIToken + " environment variable not set")
 	}
 
-	var projectDir = os.Args[1]
-	if projectDir == "" {
-		l.Fatal("usage: analyze <project_dir>")
-	}
-
-	err := project_analyzer.New().AnalyzeProject(ctx, projectDir, "./out", []project_analyzer.FileAnalyzer{
-		{
-			Prompt: prompt,
-			//Analyzer: ollama.New("http://localhost:11434", "overview"),
-			Analyzer:  openai.New(os.Getenv(EnvOpenAIToken), "gpt-4o-mini"),
-			Condition: myFancyConditionFunc,
-			ResultHandler: func(destFilePath string, result string) error {
-				outputPath := filepath.Join(destFilePath + ".md")
-
-				err := file.WriteTo(outputPath, result)
-				if err != nil {
-					l.Error(err)
-				}
-
-				l.Info("analyzed file: ", filepath.Base(destFilePath), " -> ", outputPath)
-
-				return nil
+	err := project_analyzer.New(project_analyzer.WithLogger(l)).
+		AnalyzeProject(ctx, here+"/myPhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
+			{
+				Prompt:        prompt,
+				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"), // or: ollama.New("http://localhost:11434", "overview"),
+				Condition:     myFancyConditionFunc,
+				ResultHandler: myDocsWriterFunc,
 			},
-		},
-	})
+		})
 	if err != nil {
 		l.Fatal(err)
 	}
@@ -70,4 +61,24 @@ func myFancyConditionFunc(filePath string) bool {
 		!strings.Contains(filePath, "bootstrap") &&
 		// exclude node_modules
 		!strings.Contains(filePath, "node_modules")
+}
+
+func myDocsWriterFunc(destFilepath string, result string) error {
+	if _, err := os.Stat(filepath.Dir(destFilepath)); os.IsNotExist(err) {
+		err = os.MkdirAll(filepath.Dir(destFilepath), os.ModePerm)
+		if err != nil {
+			return fmt.Errorf("failed to create directory: %w", err)
+		}
+	}
+
+	outputPath := filepath.Join(destFilepath + ".md")
+
+	err := file.WriteTo(outputPath, result)
+	if err != nil {
+		l.Error(err)
+	}
+
+	l.Info("analyzed file: ", filepath.Base(destFilepath), " -> ", outputPath)
+
+	return nil
 }
