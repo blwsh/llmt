@@ -17,8 +17,6 @@ const (
 
 var l = logger.New(false)
 
-var homeDir, _ = os.UserHomeDir()
-
 //go:embed prompt.txt
 var prompt string
 
