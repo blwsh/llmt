@@ -33,7 +33,7 @@ Example `config.yaml` file:
 version: "0.1"
 
 analyzers:
-- prompt: What is your name?
+- prompt: Write docs for this file
   analyzer: openai
   model: gpt-4o-mini
   regex: ^.+\.php$
