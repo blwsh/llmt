@@ -44,16 +44,23 @@ analyzers:
 
 #### Analyzer configuration
 
-| Field    | Description                                                                                           | Required | Default |
-|----------|-------------------------------------------------------------------------------------------------------|----------|---------|
-| prompt   | The prompt to use for the language model                                                              | yes      |         |
-| analyzer | Specifies which llm to use. Available options are `openai` and `ollama`.                              | yes      |         |
-| model    | The model to use for the language model. If you use a fine tuned openai model, you set its name here. | yes      |         |
-| regex    | A regex to match the file path.                                                                       | no       |         |
-| not_in   | A list of directories to exclude from the analysis.                                                   | no       |         |
-| in       | A list of directories to include in the analysis. Note: not_in takes precedence over `in`.            | no       |         |
+| Field    | Description                                                                                                 | Required | Default |
+|----------|-------------------------------------------------------------------------------------------------------------|----------|---------|
+| prompt   | The prompt to use for the language model                                                                    | yes      |         |
+| analyzer | Specifies which llm to use. See [Available analyzers](#available-analyzers) for the full list of analyzers. | yes      |         |
+| model    | The model to use for the language model. If you use a fine tuned openai model, you set its name here.       | yes      |         |
+| regex    | A regex to match the file path.                                                                             | no       |         |
+| not_in   | A list of directories to exclude from the analysis.                                                         | no       |         |
+| in       | A list of directories to include in the analysis. Note: not_in takes precedence over `in`.                  | no       |         |
 
 See [schema.json](schema.json) for the full config schema.
+
+#### Available analyzers
+
+| Analyzer | Description                                                                                                                    |
+|----------|--------------------------------------------------------------------------------------------------------------------------------|
+| openai   | Uses the OpenAI API to transform the files. You need to provide an API key via the `OPENAI_TOKEN` environment variable.        |
+| ollama   | Uses the OLLAMA API to transform the files. You can override the ollama url by setting the `OLLAMA_HOST` environment variable. |
 
 ## Go usage
 
