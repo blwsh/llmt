@@ -73,39 +73,39 @@ the command line analyze command.
 <details>
   <summary>Click to expand!</summary>
 
-    ```go
-    package main
-    
-    import (
-      "context"
-    
-      "github.com/blwsh/llmt/pkg/file_analyzer/openai"
-      "github.com/blwsh/llmt/pkg/project_analyzer"
-    )
-    
-    func main() {
-      ctx := context.Background()
-    
-      project_analyzer.New().
-        AnalyzeProject(ctx, "myProject", "../docs", []project_analyzer.FileAnalyzer{
-          {
-            Prompt:        "document this files behaviour",
-            Analyzer:      openai.New(openAIToken, "gpt-4o-mini"),
-            Condition:     myFancyConditionFunc,
-            ResultHandler: myDocsWriterFunc,
-          },
-        })
-    }
-    ```
-    
-    With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should be processed.
-    
-    > [!TIP]
-    > To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
+  ```go
+  package main
 
+import (
+	"context"
+
+	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/project_analyzer"
+)
+
+func main() {
+	ctx := context.Background()
+
+	project_analyzer.New().
+		AnalyzeProject(ctx, "myProject", "../docs", []project_analyzer.FileAnalyzer{
+			{
+				Prompt:        "document this files behaviour",
+				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"),
+				Condition:     myFancyConditionFunc,
+				ResultHandler: myDocsWriterFunc,
+			},
+		})
+}
+  ```
+
+With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should
+be processed.
+
+> [!TIP]
+> To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
 </details>
 
 ## Development
 
-All contributions welcome! For the next release I want to offer more analyzers with greater configurability. I also plan 
+All contributions welcome! For the next release I want to offer more analyzers with greater configurability. I also plan
 on adding more hooks for file analyzers to allow for more complex transformations.
