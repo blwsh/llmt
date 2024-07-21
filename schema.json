@@ -14,7 +14,8 @@
             "type": "string"
           },
           "analyzer": {
-            "type": "string"
+            "type": "string",
+            "enum": ["openai", "ollama"]
           },
           "model": {
             "type": "string"

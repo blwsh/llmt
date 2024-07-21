@@ -6,7 +6,7 @@ a new directory. The file structure is preserved.
 
 ## Installation
 
-### Command line utility
+### Command line usage
 
 #### Docker
 
@@ -14,16 +14,18 @@ a new directory. The file structure is preserved.
 docker run -v $(pwd):/data github.com/blwsh/llmt analyze
 ```
 
+> [!NOTE]  
+> When using openai analyzer you'll need to provide an API key. You can do this by setting the `OPENAI_TOKEN=` environment variable.
+
 #### Release
 
 Download the latest release from the [releases page](https://github.com/blwsh/llmt/releases). Extract the archive and run the binary.
-
-## Command line usage
 
 ```shell
 llmt \ --config <config_file> \    # optional parameter, default is config.yaml in current directory
       analyze ./myProject ../docs  # analyzes files in ./myProject and outputs them as markdown in ../docs (maintains file structure)
 ```
+### Configuration
 
 Example `config.yaml` file:
 
@@ -39,6 +41,17 @@ analyzers:
   not_in:
     - vendor
 ```
+
+#### Analyzer configuration
+
+| Field    | Description                                                                                           | Required | Default |
+|----------|-------------------------------------------------------------------------------------------------------|----------|---------|
+| prompt   | The prompt to use for the language model                                                              | yes      |         |
+| analyzer | Specifies which llm to use. Available options are `openai` and `ollama`.                              | yes      |         |
+| model    | The model to use for the language model. If you use a fine tuned openai model, you set its name here. | yes      |         |
+| regex    | A regex to match the file path.                                                                       | no       |         |
+| not_in   | A list of directories to exclude from the analysis.                                                   | no       |         |
+| in       | A list of directories to include in the analysis. Note: not_in takes precedence over `in`.            | no       |         |
 
 See [schema.json](schema.json) for the full config schema.
 
