@@ -4,7 +4,7 @@ Transforms all files in specified directory using a large language model. You ca
 transformation along with a prompt, which LLM to use and which model should be used . The transformed files are saved in
 a new directory. The file structure is preserved.
 
-## Installation
+## Usage
 
 ### Command line usage
 
