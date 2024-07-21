@@ -58,7 +58,7 @@ analyzers:
 
 See [schema.json](schema.json) for the full config schema.
 
-#### Available analyzers
+##### Available analyzers
 
 | Analyzer | Description                                                                                                                    |
 |----------|--------------------------------------------------------------------------------------------------------------------------------|
