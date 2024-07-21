@@ -71,10 +71,10 @@ You can find a comprehensive list of [examples](examples) here. Below is a simpl
 the command line analyze command.
 
 <details>
-  <summary>Click to expand!</summary>
+<summary>Click to expand!</summary>
 
-  ```go
-  package main
+```go
+package main
 
 import (
 	"context"
@@ -96,7 +96,8 @@ func main() {
 			},
 		})
 }
-  ```
+
+```
 
 With `Condition` and `ResultHandler` you're able to filter out which files should be processed and how the result should
 be processed.
