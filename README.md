@@ -11,7 +11,7 @@ a new directory. The file structure is preserved.
 #### Docker
 
 ```shell
-docker run -v $(pwd):/data github.com/blwsh/llmt analyze
+docker run -v $(pwd):/data ghcr.io/blwsh/llmt analyze
 ```
 
 > [!NOTE]  

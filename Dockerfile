@@ -1,8 +1,11 @@
-FROM golang:1-alpine AS builder
-WORKDIR /app
-COPY . .
-RUN go build -o llmt github.com/blwsh/llmt/cmd/analyze
+FROM --platform=$BUILDPLATFORM golang:1.22-alpine AS build
+WORKDIR /src
+ARG TARGETOS TARGETARCH
+RUN --mount=target=. \
+    --mount=type=cache,target=/root/.cache/go-build \
+    --mount=type=cache,target=/go/pkg \
+    GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /out/llmt github.com/blwsh/llmt/cmd/analyze
 
-FROM golang:1-alpine
-COPY --from=builder /app/llmt /llmt
-CMD ["/llmt"]
+FROM alpine
+COPY --from=build /out/llmt /bin
+ENTRYPOINT ["/bin/llmt"]
