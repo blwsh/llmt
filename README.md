@@ -15,7 +15,7 @@ docker run -v $(pwd):/data github.com/blwsh/llmt analyze
 ```
 
 > [!NOTE]  
-> When using `openai` analyzer you'll need to provide an API key. You can do this by setting the `OPENAI_TOKEN=` environment variable.
+> When using `openai` analyzer you'll need to provide an API key. You can do this by setting the `OPENAI_TOKEN` environment variable.
 
 #### Release
 
