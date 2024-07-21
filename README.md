@@ -104,3 +104,8 @@ the command line analyze command.
     > To see a more complete example of the above snippet, see [examples/overview](examples/overview/main.go) directory.
 
 </details>
+
+## Development
+
+All contributions welcome! For the next release I want to offer more analyzers with greater configurability. I also plan 
+on adding more hooks for file analyzers to allow for more complex transformations.
