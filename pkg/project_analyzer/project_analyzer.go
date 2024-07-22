@@ -49,7 +49,7 @@ func WithLogger(l logger.Logger) Option {
 func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string, destinationPath string, analyzers []FileAnalyzer) error {
 	dir, err := os.ReadDir(projectPath)
 	if err != nil {
-		s.logger.Fatal(err)
+		s.logger.Fatalf("failed to read directory \"%s\": %v", projectPath, err)
 	}
 
 	var wg sync.WaitGroup
@@ -66,7 +66,7 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 				if f.IsDir() {
 					err = s.AnalyzeProject(ctx, filePath, filepath.Join(destinationPath, f.Name()), analyzers)
 					if err != nil {
-						s.logger.Error(err)
+						s.logger.Errorf("failed to analyze project: %v", err)
 					}
 				}
 
@@ -76,7 +76,7 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 
 				contents, err := file.GetContents(filePath, f)
 				if err != nil {
-					s.logger.Error(err)
+					s.logger.Errorf("failed to get file contents for \"%s\": %v", filePath, err)
 					return
 				}
 
@@ -89,7 +89,7 @@ func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string
 				if projectAnalyzer.ResultHandler != nil {
 					err = projectAnalyzer.ResultHandler(filepath.Join(destinationPath, f.Name()), analyzed)
 					if err != nil {
-						s.logger.Error(err)
+						s.logger.Errorf("failed to handle result for \"%s\": %v", filePath, err)
 					}
 				}
 			}()
