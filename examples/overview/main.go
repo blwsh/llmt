@@ -37,7 +37,7 @@ func main() {
 	}
 
 	err := project_analyzer.New(project_analyzer.WithLogger(l)).
-		AnalyzeProject(ctx, here+"/myPhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
+		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
 			{
 				Prompt:        prompt,                                 // you may want to just use empty string if your model has a system prompt already
 				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "overview"),
@@ -53,14 +53,9 @@ func main() {
 func myFancyConditionFunc(filePath string) bool {
 	return strings.HasSuffix(filePath, ".php") &&
 		// exclude tests
-		!strings.Contains(filePath, "tests") &&
-		!strings.Contains(filePath, "test.php") &&
+		!strings.Contains(filePath, "test") &&
 		// exclude composer files and directories
-		!strings.Contains(filePath, "vendor") &&
-		!strings.Contains(filePath, "autoload") &&
-		!strings.Contains(filePath, "bootstrap") &&
-		// exclude node_modules
-		!strings.Contains(filePath, "node_modules")
+		!strings.Contains(filePath, "vendor")
 }
 
 func myDocsWriterFunc(destFilepath string, result string) error {

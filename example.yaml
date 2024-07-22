@@ -8,3 +8,4 @@ analyzers:
   regex: ^.+\.php$
   not_in:
     - vendor
+    - node_modules
