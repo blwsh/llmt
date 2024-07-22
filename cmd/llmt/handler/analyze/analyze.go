@@ -1,13 +1,22 @@
-package main
+package analyze
 
 import (
 	"context"
 	"os"
 
+	"github.com/blwsh/llmt/config"
+	"github.com/blwsh/llmt/lib/logger"
 	"github.com/blwsh/llmt/pkg/project_analyzer"
 )
 
-func analyze(ctx context.Context, source, target string, c config) error {
+const (
+	envOpenAIToken = "OPENAI_TOKEN"
+	envOllamaHost  = "OLLAMA_HOST"
+)
+
+var log = logger.NewCMDLogger()
+
+func Analyze(ctx context.Context, source, target string, c config.Config) error {
 	var (
 		writer   = markdownWriter{logger: log}
 		resolver = analyzerResolver{

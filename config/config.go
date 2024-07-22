@@ -1,4 +1,4 @@
-package main
+package config
 
 import (
 	"errors"
@@ -8,12 +8,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-type config struct {
+type Config struct {
 	Version   string                   `yaml:"version"`
-	Analyzers []*projectAnalyzerConfig `yaml:"analyzers"`
+	Analyzers []*ProjectAnalyzerConfig `yaml:"analyzers"`
 }
 
-type projectAnalyzerConfig struct {
+type ProjectAnalyzerConfig struct {
 	Prompt   string    `yaml:"prompt"`
 	Analyzer string    `yaml:"analyzer"`
 	Model    string    `yaml:"model"`
@@ -22,19 +22,19 @@ type projectAnalyzerConfig struct {
 	NotIn    *[]string `yaml:"not_in"`
 }
 
-var ErrRetrievingConfig = errors.New("error retrieving config")
+var ErrRetrievingConfig = errors.New("error retrieving Config")
 
-func getConfig(configPath string) (config, error) {
-	var c *config
+func GetConfig(configPath string) (Config, error) {
+	var c *Config
 
 	yamlFile, err := os.ReadFile(configPath)
 	if err != nil {
-		return config{}, fmt.Errorf("%w: %v", ErrRetrievingConfig, err)
+		return Config{}, fmt.Errorf("%w: %v", ErrRetrievingConfig, err)
 	}
 
 	err = yaml.Unmarshal(yamlFile, &c)
 	if err != nil {
-		return config{}, fmt.Errorf("%w: %v", ErrRetrievingConfig, err)
+		return Config{}, fmt.Errorf("%w: %v", ErrRetrievingConfig, err)
 	}
 
 	return *c, nil

@@ -6,11 +6,9 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-)
 
-const (
-	envOpenAIToken = "OPENAI_TOKEN"
-	envOllamaHost  = "OLLAMA_HOST"
+	"github.com/blwsh/llmt/cmd/llmt/handler/analyze"
+	"github.com/blwsh/llmt/config"
 )
 
 var (
@@ -36,7 +34,7 @@ func main() {
 		Args:      cobra.ExactArgs(2),
 		ValidArgs: []string{"source", "target"},
 		Run: func(cmd *cobra.Command, args []string) {
-			cfg, err := getConfig(configPath)
+			cfg, err := config.GetConfig(configPath)
 			if err != nil {
 				log.Fatalf("failed to get config: %v", err)
 			}
@@ -44,7 +42,7 @@ func main() {
 			source := strings.Replace(args[0], "~", os.Getenv("HOME"), 1)
 			target := strings.Replace(args[1], "~", os.Getenv("HOME"), 1)
 
-			if err := analyze(ctx, source, target, cfg); err != nil {
+			if err := analyze.Analyze(ctx, source, target, cfg); err != nil {
 				log.Fatalf("failed to analyze project: %v", err)
 			}
 		},

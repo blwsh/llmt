@@ -1,12 +1,14 @@
-package main
+package analyze
 
 import (
 	"regexp"
 	"strings"
+
+	"github.com/blwsh/llmt/config"
 )
 
-func compileRegexesFromConfig(c config) map[*projectAnalyzerConfig]*regexp.Regexp {
-	var compiledRegexes = make(map[*projectAnalyzerConfig]*regexp.Regexp)
+func compileRegexesFromConfig(c config.Config) map[*config.ProjectAnalyzerConfig]*regexp.Regexp {
+	var compiledRegexes = make(map[*config.ProjectAnalyzerConfig]*regexp.Regexp)
 
 	for _, analyzer := range c.Analyzers {
 		if analyzer.Regex != nil {
@@ -22,7 +24,7 @@ func compileRegexesFromConfig(c config) map[*projectAnalyzerConfig]*regexp.Regex
 	return compiledRegexes
 }
 
-func condition(a *projectAnalyzerConfig, compiledRegexes map[*projectAnalyzerConfig]*regexp.Regexp) func(filePath string) bool {
+func condition(a *config.ProjectAnalyzerConfig, compiledRegexes map[*config.ProjectAnalyzerConfig]*regexp.Regexp) func(filePath string) bool {
 	return func(filePath string) bool {
 		if a.NotIn != nil {
 			for _, notIn := range *a.NotIn {
