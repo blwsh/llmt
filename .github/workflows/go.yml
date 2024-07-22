@@ -22,7 +22,7 @@ jobs:
         go-version: '1.22'
 
     - name: Build
-      run: go build -o llmt github.com/blwsh/llmt/cmd/analyze
+      run: go build -o llmt github.com/blwsh/llmt/cmd/llmt
 
     - name: Test
       run: go test -v ./...
