@@ -1,3 +1,5 @@
+//go:build exclude
+
 package auth
 
 type Authorizer struct {
