@@ -6,6 +6,6 @@ RUN --mount=target=. \
     --mount=type=cache,target=/go/pkg \
     GOOS=$TARGETOS GOARCH=$TARGETARCH go build -o /out/llmt github.com/blwsh/llmt/cmd/llmt
 
-FROM alpine
+FROM --platform=$BUILDPLATFORM golang:1.22-alpine
 COPY --from=build /out/llmt /bin
 ENTRYPOINT ["/bin/llmt"]

@@ -37,7 +37,7 @@ func main() {
 	}
 
 	err := project_analyzer.New(project_analyzer.WithLogger(l)).
-		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
+		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/exampleGoProject", []project_analyzer.FileAnalyzer{
 			{
 				Prompt:   prompt,                                 // you may want to just use empty string if your model has a system prompt already
 				Analyzer: openai.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "php_to_go"),
