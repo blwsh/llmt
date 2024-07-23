@@ -3,9 +3,9 @@ package analyze
 import (
 	"errors"
 
-	"github.com/blwsh/llmt/pkg/file_analyzer"
-	"github.com/blwsh/llmt/pkg/file_analyzer/ollama"
-	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/ollama"
+	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai"
 )
 
 var ErrUnknownAnalyzer = errors.New("unknown analyzer")
@@ -15,7 +15,7 @@ type analyzerResolver struct {
 	OllamaHostResolver  func() string
 }
 
-func (a analyzerResolver) resolve(analyzer, model string) (file_analyzer.Analyzer, error) {
+func (a analyzerResolver) resolve(analyzer, model string) (analyzer.ItemAnalyzer, error) {
 	switch analyzer {
 	case "openai":
 		return openai.New(a.OpenAITokenResolver(), model), nil

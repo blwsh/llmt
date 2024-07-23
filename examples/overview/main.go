@@ -10,8 +10,9 @@ import (
 
 	"github.com/blwsh/llmt/lib/file"
 	"github.com/blwsh/llmt/lib/logger"
-	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
-	"github.com/blwsh/llmt/pkg/project_analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/chat"
 )
 
 const (
@@ -36,8 +37,8 @@ func main() {
 		l.Fatal(EnvOpenAIToken + " environment variable not set")
 	}
 
-	err := project_analyzer.New(project_analyzer.WithLogger(l)).
-		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/docs", []project_analyzer.FileAnalyzer{
+	err := chat.New(chat.WithLogger(l)).
+		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/docs", []analyzer.FileAnalyzerConfig{
 			{
 				Prompt:        prompt,                                 // you may want to just use empty string if your model has a system prompt already
 				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "overview"),

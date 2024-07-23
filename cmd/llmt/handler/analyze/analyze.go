@@ -6,7 +6,8 @@ import (
 
 	"github.com/blwsh/llmt/config"
 	"github.com/blwsh/llmt/lib/logger"
-	"github.com/blwsh/llmt/pkg/project_analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/chat"
 )
 
 const (
@@ -38,24 +39,24 @@ func Analyze(ctx context.Context, source, target string, c config.Config) error 
 			},
 		}
 		compiledRegexes = compileRegexesFromConfig(c)
-		analyzers       []project_analyzer.FileAnalyzer
+		analyzers       []analyzer.FileAnalyzerConfig
 	)
 
 	for _, a := range c.Analyzers {
-		analyzer, err := resolver.resolve(a.Analyzer, a.Model)
+		an, err := resolver.resolve(a.Analyzer, a.Model)
 		if err != nil {
 			log.Warnf("failed to resolve analyzer %s: %v", a.Analyzer, err)
 		}
 
-		analyzers = append(analyzers, project_analyzer.FileAnalyzer{
+		analyzers = append(analyzers, analyzer.FileAnalyzerConfig{
 			Prompt:        a.Prompt,
-			Analyzer:      analyzer,
+			Analyzer:      an,
 			Condition:     condition(a, compiledRegexes),
 			ResultHandler: writer.write,
 		})
 	}
 
-	err := project_analyzer.New(project_analyzer.WithLogger(log)).AnalyzeProject(ctx, source, target, analyzers)
+	err := chat.New(chat.WithLogger(log)).AnalyzeProject(ctx, source, target, analyzers)
 	if err != nil {
 		return err
 	}

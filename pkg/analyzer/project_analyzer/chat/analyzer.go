@@ -1,4 +1,4 @@
-package project_analyzer
+package chat
 
 import (
 	"context"
@@ -8,27 +8,16 @@ import (
 
 	"github.com/blwsh/llmt/lib/file"
 	"github.com/blwsh/llmt/lib/logger"
-	"github.com/blwsh/llmt/pkg/file_analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer"
 )
-
-type FileAnalyzer struct {
-	Prompt        string
-	Analyzer      file_analyzer.Analyzer
-	Condition     func(filePath string) bool
-	ResultHandler func(destFilepath string, result string) error
-}
-
-type ProjectAnalyzer interface {
-	AnalyzeProject(ctx context.Context, projectPath string, destinationPath string, analyzers []FileAnalyzer) error
-}
 
 type projectAnalyzer struct {
 	logger logger.Logger
 }
 
-type Option func(*projectAnalyzer)
+type AnalyzerOption func(*projectAnalyzer)
 
-func New(options ...Option) ProjectAnalyzer {
+func New(options ...AnalyzerOption) analyzer.ProjectAnalyzer {
 	p := &projectAnalyzer{
 		logger: logger.New(false),
 	}
@@ -40,13 +29,13 @@ func New(options ...Option) ProjectAnalyzer {
 	return p
 }
 
-func WithLogger(l logger.Logger) Option {
+func WithLogger(l logger.Logger) AnalyzerOption {
 	return func(p *projectAnalyzer) {
 		p.logger = l
 	}
 }
 
-func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string, destinationPath string, analyzers []FileAnalyzer) error {
+func (s *projectAnalyzer) AnalyzeProject(ctx context.Context, projectPath string, destinationPath string, analyzers []analyzer.FileAnalyzerConfig) error {
 	dir, err := os.ReadDir(projectPath)
 	if err != nil {
 		s.logger.Fatalf("failed to read directory \"%s\": %v", projectPath, err)

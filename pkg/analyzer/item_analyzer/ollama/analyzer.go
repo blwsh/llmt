@@ -10,10 +10,10 @@ import (
 	"net/url"
 	"time"
 
-	"github.com/blwsh/llmt/pkg/file_analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer"
 )
 
-func New(llamaHost, model string) file_analyzer.Analyzer {
+func New(llamaHost, model string) analyzer.ItemAnalyzer {
 	return &llama3Analyzer{llamaHost: llamaHost, model: model}
 }
 

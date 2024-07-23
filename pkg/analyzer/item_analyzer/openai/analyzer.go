@@ -7,13 +7,12 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/blwsh/llmt/pkg/analyzer"
 	oai "github.com/sashabaranov/go-openai"
 	"golang.org/x/time/rate"
-
-	"github.com/blwsh/llmt/pkg/file_analyzer"
 )
 
-func New(llmAuthToken, model string) file_analyzer.Analyzer {
+func New(llmAuthToken, model string) analyzer.ItemAnalyzer {
 	return &openai{
 		gpt:        oai.NewClient(llmAuthToken),
 		model:      model,
@@ -49,7 +48,7 @@ func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (s
 		var apiErr *oai.APIError
 		if errors.As(err, &apiErr) {
 			if apiErr.HTTPStatusCode == 429 {
-				return "", &file_analyzer.RateLimitError{Err: apiErr}
+				return "", &analyzer.RateLimitError{Err: apiErr}
 			}
 		}
 
@@ -57,7 +56,7 @@ func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (s
 	}
 
 	if len(resp.Choices) != 1 {
-		return "", fmt.Errorf("%w: expected 1 choice, got %d", file_analyzer.ErrUnexpectedResponse, len(resp.Choices))
+		return "", fmt.Errorf("%w: expected 1 choice, got %d", analyzer.ErrUnexpectedResponse, len(resp.Choices))
 	}
 
 	return resp.Choices[0].Message.Content, nil

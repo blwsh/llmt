@@ -78,21 +78,24 @@ package main
 
 import (
 	"context"
+	"io/ioutil"
+	"strings"
 
-	"github.com/blwsh/llmt/pkg/file_analyzer/openai"
-	"github.com/blwsh/llmt/pkg/project_analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer"
+	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai"
+	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/chat"
 )
 
 func main() {
-	ctx := context.Background()
-
-	project_analyzer.New().
-		AnalyzeProject(ctx, "myProject", "../docs", []project_analyzer.FileAnalyzer{
+	chat.New().
+	  AnalyzeProject(context.Background(), "myProject", "../docs", []analyzer.FileAnalyzerConfig{
 			{
-				Prompt:        "document this files behaviour",
-				Analyzer:      openai.New(openAIToken, "gpt-4o-mini"),
-				Condition:     myFancyConditionFunc,
-				ResultHandler: myDocsWriterFunc,
+				Prompt:    "document this files behaviour",
+				Analyzer:  openai.New("OPENAI_TOKEN_HERE", "gpt-4o-mini"),
+				Condition: func(path string) bool { return strings.HasSuffix(path, ".php") },
+				ResultHandler: func(destFilepath string, result string) error {
+					return ioutil.WriteFile(destFilepath, []byte(result), 0644)
+				},
 			},
 		})
 }
