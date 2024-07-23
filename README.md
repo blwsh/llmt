@@ -88,7 +88,7 @@ import (
 
 func main() {
 	chat.New().
-	  AnalyzeProject(context.Background(), "myProject", "../docs", []analyzer.FileAnalyzerConfig{
+	  AnalyzeProject(context.Background(), "./myProject", "../docs", []analyzer.FileAnalyzerConfig{
 			{
 				Prompt:    "document this files behaviour",
 				Analyzer:  openai.New("OPENAI_TOKEN_HERE", "gpt-4o-mini"),
