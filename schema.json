@@ -34,6 +34,23 @@
             "items": {
               "type": "string"
             }
+          },
+          "assistant": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "files": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
           }
         },
         "required": ["prompt", "analyzer", "model"]

@@ -11,8 +11,8 @@ import (
 	"github.com/blwsh/llmt/lib/file"
 	"github.com/blwsh/llmt/lib/logger"
 	"github.com/blwsh/llmt/pkg/analyzer"
-	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai"
-	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/chat"
+	chat2 "github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai/chat"
+	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/assistant"
 )
 
 const (
@@ -37,11 +37,11 @@ func main() {
 		l.Fatal(EnvOpenAIToken + " environment variable not set")
 	}
 
-	err := chat.New(chat.WithLogger(l)).
-		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/exampleGoProject", []analyzer.FileAnalyzerConfig{
+	err := assistant.New(openAIToken, assistant.WithLogger(l)).
+		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/exampleGoProject", []analyzer.FileAnalyzer{
 			{
-				Prompt:   prompt,                                 // you may want to just use empty string if your model has a system prompt already
-				Analyzer: openai.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "php_to_go"),
+				Prompt:       prompt,                                // you may want to just use empty string if your model has a system prompt already
+				ItemAnalyzer: chat2.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "php_to_go"),
 				Condition: func(filePath string) bool {
 					return strings.HasSuffix(filePath, ".php") && !strings.Contains(filePath, "test") && !strings.Contains(filePath, "vendor")
 				},
@@ -65,7 +65,7 @@ func main() {
 					return nil
 				},
 			},
-		})
+		}, nil)
 	if err != nil {
 		l.Fatal(err)
 	}
