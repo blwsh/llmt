@@ -12,7 +12,7 @@ import (
 	"github.com/blwsh/llmt/lib/logger"
 	"github.com/blwsh/llmt/pkg/analyzer"
 	chat2 "github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai/chat"
-	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/assistant"
+	"github.com/blwsh/llmt/pkg/analyzer/project_analyzer/chat"
 )
 
 const (
@@ -21,7 +21,6 @@ const (
 
 var l = logger.New(false)
 
-//go:embed prompt.txt
 var prompt string
 
 var (
@@ -37,11 +36,11 @@ func main() {
 		l.Fatal(EnvOpenAIToken + " environment variable not set")
 	}
 
-	err := assistant.New(openAIToken, assistant.WithLogger(l)).
-		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/docs", []analyzer.FileAnalyzer{
+	err := chat.New(chat.WithLogger(l)).
+		AnalyzeProject(ctx, cwd+"/examples/examplePhpProject", here+"/exampleGoProject", []analyzer.FileAnalyzer{
 			{
-				Prompt:        prompt,                                // you may want to just use empty string if your model has a system prompt already
-				ItemAnalyzer:  chat2.New(openAIToken, "gpt-4o-mini"), // you can also use ollama: ollama.New("http://localhost:11434", "overview"),
+				Prompt:        prompt,
+				ItemAnalyzer:  chat2.New(openAIToken, "gpt-3.5-turbo"),
 				Condition:     myFancyConditionFunc,
 				ResultHandler: myDocsWriterFunc,
 			},
@@ -67,14 +66,14 @@ func myDocsWriterFunc(destFilepath string, result string) error {
 		}
 	}
 
-	outputPath := filepath.Join(destFilepath + ".md")
+	outputPath := filepath.Join(destFilepath + ".go")
 
 	err := file.WriteTo(outputPath, result)
 	if err != nil {
 		l.Error(err)
 	}
 
-	l.Info("analyzed file: ", filepath.Base(destFilepath), " -> ", outputPath)
+	l.Info("converted file: ", filepath.Base(destFilepath), " -> ", outputPath)
 
 	return nil
 }
