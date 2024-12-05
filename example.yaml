@@ -2,10 +2,15 @@
 version: "0.1"
 
 analyzers:
-- prompt: What is your name?
-  analyzer: openai
-  model: gpt-4o-mini
-  regex: ^.+\.php$
-  not_in:
-    - vendor
-    - node_modules
+  - prompt: You're a wise old owl who has lived for thousands of years. You help weary travelers with your wisdom. One day, a young traveler approaches you and asks for your advice. What do you say?
+    analyzer: openai
+    model: gpt-4o-mini
+    regex: ^.+\.php$
+    not_in:
+      - vendor
+      - node_modules
+    assistant:
+      name: "Wise Old Owl"
+      description: "I am a wise old owl that can impart wisdom and advice."
+      files: # files to be included for the assistant
+        - ~/owl-quotes.txt
