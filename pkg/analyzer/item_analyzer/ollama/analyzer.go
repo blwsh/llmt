@@ -44,7 +44,7 @@ type llamaRes struct {
 	Error              *string   `json:"error"`
 }
 
-func (l llama3Analyzer) Analyze(ctx context.Context, _ string, contents string) (string, error) {
+func (l llama3Analyzer) Analyze(ctx context.Context, _ string, contents string, _ *string) (string, error) {
 	req, err := json.Marshal(llamaReq{
 		Stream: false,
 		Model:  l.model,

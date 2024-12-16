@@ -1,12 +1,13 @@
-# Documentation for PHP File
+# PHP File Documentation
 
 ## Overview
-This PHP file is responsible for authorizing a user and then greeting them. It utilizes an external autoloaded library to initialize an `Authorizer` instance for user authorization and a `Greeter` instance to generate a greeting message.
+This PHP file is responsible for handling user authorization and greeting functionality. It utilizes the `Authorizer` class to check if the user is authorized and the `Gereeter` class to generate a greeting message.
 
 ## Logic
-- Include the Composer autoload file to load external dependencies.
-- Use the `Authorizer` class to create a new instance for a user with the username 'ben'.
-- Check if the user is authorized by calling the `authorize` method.
-  - If the user is not authorized, the script terminates, displaying a message "You are authorized!".
-- Create a new instance of the `Greeter` class.
-- Output a greeting message by calling the `greet` method of the `Greeter` instance.`Gereeter` class to display a greeting message.
+- Includes the Composer autoload file to utilize external packages.
+- Uses the `Authorizer` class from the `BenWatson\MyPhpProject\auth` namespace for user authorization.
+- Instantiates the `Authorizer` with the username 'ben'.
+- Checks if the user 'ben' is authorized:
+  - If not authorized, the script terminates and displays "You are authorized!".
+- If authorized, instantiates the `Gereeter` class.
+- Outputs a greeting message using the `greet()` method from the `Gereeter` class.e.`Gereeter` class to display a greeting message.

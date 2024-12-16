@@ -7,9 +7,10 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/blwsh/llmt/pkg/analyzer"
 	oai "github.com/sashabaranov/go-openai"
 	"golang.org/x/time/rate"
+
+	"github.com/blwsh/llmt/pkg/analyzer"
 )
 
 func New(llmAuthToken, model string) analyzer.ItemAnalyzer {
@@ -28,22 +29,24 @@ type openai struct {
 	tpmLimiter *rate.Limiter
 }
 
-func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (string, error) {
+func (f *openai) Analyze(ctx context.Context, prompt string, contents string, assistantID *string) (string, error) {
 	err := f.rpmLimiter.Wait(ctx)
 	if err != nil {
 		return "", err
 	}
 
-	resp, err := f.gpt.CreateChatCompletion(
-		context.Background(),
-		oai.ChatCompletionRequest{
-			Model: f.model,
-			Messages: []oai.ChatCompletionMessage{
-				{Role: oai.ChatMessageRoleSystem, Content: prompt},
+	resp, err := f.gpt.CreateThreadAndRun(ctx, oai.CreateThreadAndRunRequest{
+		RunRequest: oai.RunRequest{
+			AssistantID:  *assistantID,
+			Model:        f.model,
+			Instructions: prompt,
+		},
+		Thread: oai.ThreadRequest{
+			Messages: []oai.ThreadMessage{
 				{Role: oai.ChatMessageRoleUser, Content: contents},
 			},
 		},
-	)
+	})
 	if err != nil {
 		var apiErr *oai.APIError
 		if errors.As(err, &apiErr) {
@@ -55,9 +58,14 @@ func (f *openai) Analyze(ctx context.Context, prompt string, contents string) (s
 		return "", err
 	}
 
-	if len(resp.Choices) != 1 {
-		return "", fmt.Errorf("%w: expected 1 choice, got %d", analyzer.ErrUnexpectedResponse, len(resp.Choices))
+	message, err := f.gpt.ListMessage(ctx, resp.ThreadID, nil, nil, nil, nil)
+	if err != nil {
+		return "", err
 	}
 
-	return resp.Choices[0].Message.Content, nil
+	if len(message.Messages) != 1 {
+		return "", fmt.Errorf("%w: expected 1 choice, got %d", analyzer.ErrUnexpectedResponse, len(message.Messages))
+	}
+
+	return message.Messages[0].Content[0].Text.Value, nil
 }

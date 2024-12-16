@@ -5,17 +5,17 @@ import (
 
 	"github.com/blwsh/llmt/pkg/analyzer"
 	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/ollama"
-	"github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai"
+	openai "github.com/blwsh/llmt/pkg/analyzer/item_analyzer/openai/assitant"
 )
 
 var ErrUnknownAnalyzer = errors.New("unknown analyzer")
 
-type analyzerResolver struct {
+type itemAnalyzerResolver struct {
 	OpenAITokenResolver func() string
 	OllamaHostResolver  func() string
 }
 
-func (a analyzerResolver) resolve(analyzer, model string) (analyzer.ItemAnalyzer, error) {
+func (a itemAnalyzerResolver) resolve(analyzer, model string) (analyzer.ItemAnalyzer, error) {
 	switch analyzer {
 	case "openai":
 		return openai.New(a.OpenAITokenResolver(), model), nil
