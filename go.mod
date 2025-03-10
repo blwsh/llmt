@@ -1,12 +1,13 @@
 module github.com/blwsh/llmt
 
 go 1.22
+toolchain go1.23.7
 
 require (
 	github.com/sashabaranov/go-openai v1.37.0
 	github.com/spf13/cobra v1.8.1
 	go.uber.org/zap v1.27.0
-	golang.org/x/time v0.10.0
+	golang.org/x/time v0.11.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
